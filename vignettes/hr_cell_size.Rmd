@@ -1,0 +1,41 @@
+---
+title: "Home-range size across grid-cell sizes"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Home-range size across grid-cell sizes}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Grid-based home-range estimates depend on the spatial resolution of the grid. Here we examine how the estimated home-range size changes as grid-cell area increases.
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(gridHR)
+```
+
+```{r}
+hr_cell_size(
+  gibbons,
+  min = 50,
+  max = 10000,
+  interval = 500,
+  cell_shape = "hex",
+  title = "Grid-based home-range of gibbons across hexagonal cell areas"
+)
+```
+
+The figure shows that home-range size stabilizes at approximately 0.5 ha (5,000 square meters) hexagonal cell area, suggesting that larger cells provide little additional change in the estimated home-range size.

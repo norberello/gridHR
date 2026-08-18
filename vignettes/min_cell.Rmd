@@ -1,0 +1,51 @@
+---
+title: "Minimum grid-cell size based on home-range connectivity"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Minimum grid-cell size based on home-range connectivity}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+Grid-based home-range estimates depend on the spatial resolution of the grid.
+When cells are too small relative to the spatial distribution of animal
+locations, the resulting home range may consist of several disconnected
+components. `min_cell()` evaluates this issue by calculating the topological
+connectivity of the occupied grid cells across a sequence of cell areas.
+
+For each tested cell size, animal locations are overlaid on a regular grid and
+cells containing at least one location are retained as the grid-based home
+range. Connectivity is then evaluated according to shared cell edges: cells
+that touch only at a corner are not considered connected. Connectivity is
+expressed as the proportion of occupied cells belonging to the largest
+connected component.
+
+The function identifies the smallest tested cell area at which all
+occupied cells form a single connected component. This provides a way to
+evaluate whether a chosen grid resolution gives a spatially coherent
+representation of the observed home range while retaining as much spatial
+resolution as possible.
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(gridHR)
+```
+
+```{r}
+min_cell(
+  gibbons,
+  min = 1,
+  max = 1000,
+  interval = 100,
+  cell_shape = "hex",
+  show_plot = TRUE
+)
+```
+
+The connectivity profile shows that all occupied cells form a single connected component at a hexagonal cell area of 250 square meters. Thus, even at this relatively fine spatial resolution, the observed locations produce a fully connected representation of the home range.

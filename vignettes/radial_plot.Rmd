@@ -1,0 +1,45 @@
+---
+title: "Radial space-use profile of a grid-based home range"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Radial space-use profile of a grid-based home range}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(gridHR)
+```
+
+`radial_plot()` summarizes how space-use intensity changes with distance from
+the centre toward the periphery of a grid-based home range. The function
+divides the occupied grid cells into radial rings and calculates the
+space-use intensity of each ring as the number of recorded locations divided
+by the number of occupied cells in that ring.
+
+This produces a radial space-use profile: a representation of the relationship
+between distance from the centre of the home range and the relative intensity
+with which space is used. Distance and intensity are normalized from 0 to 1,
+allowing profiles to be compared independently of the absolute size of the
+home range or the number of locations.
+
+The centre is defined from the geometric centroid of the observed locations,
+using the centre of the grid cell containing that centroid. Distance is then
+measured from this central cell to the centres of the occupied cells.
+
+```{r}
+radial_plot(
+  gibbons,
+  cell_area = 5000,
+  cell_shape = "hex",
+  title = "Radial space-use profile of a gibbon group (0.5-ha hexagons)"
+)
+```
+

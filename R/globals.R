@@ -1,0 +1,14 @@
+utils::globalVariables(
+  c(
+    "n",
+    "ring",
+    "n_total",
+    "n_cells",
+    "dist",
+    "norm_dist",
+    "norm_intensity",
+    "n_locations",
+    "mean_hr_ha",
+    "sd_hr_ha"
+  )
+)

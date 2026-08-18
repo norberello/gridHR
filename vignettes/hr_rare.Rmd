@@ -1,0 +1,51 @@
+---
+title: "Grid-based home-range rarefaction"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Grid-based home-range rarefaction}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+The estimated size of a grid-based home range depends not only on the
+resolution of the grid, but also on the number of animal locations available.
+With few locations, the observed home range may be only partially sampled,
+and additional locations may continue to increase the number of occupied
+grid cells.
+
+`hr_rare()` evaluates the effect of sampling effort by repeatedly randomizing
+the order in which animal locations are accumulated and calculating the
+grid-based home-range size at successive sample sizes. The resulting
+rarefaction curve shows how home-range size changes as the number of locations
+increases and whether the estimate approaches a stable value with increasing
+sampling effort.
+
+Because the home range is defined by the occupied grid cells, the analysis
+should be interpreted in relation to the selected grid-cell size and shape.
+Here we use a fixed hexagonal grid and examine whether additional locations
+continue to increase the estimated home-range area.
+
+```{r setup}
+library(gridHR)
+```
+
+A reduced number of replicates is used here to keep the example computationally light. Larger values are recommended for analysis.
+
+```{r}
+hr_rare(
+  spider_monkeys,
+  cell_area = 10000,
+  cell_shape = "hex",
+  n_reps = 99,
+  step = 100
+)
+```
+
+There is no universal criterion for defining a minimum number of locations from a rarefaction curve. Instead, the curve can be examined for a point at which the increase in estimated home-range size begins to level off. In this example, the curve starts to bend at approximately 2,000 locations, suggesting that additional locations beyond this point contribute progressively less to the estimated home-range size.

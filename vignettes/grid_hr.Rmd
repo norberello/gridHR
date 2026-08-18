@@ -1,0 +1,50 @@
+---
+title: "Grid-based home-range plot"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Grid-based home-range plot}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(gridHR)
+```
+
+`grid_hr()` provides a simple grid-based approach to estimating animal home-range size. Rather than estimating a continuous utilization distribution, the method overlays the observed locations with a regular spatial grid and defines the home range as the set of cells containing at least one location.
+
+The estimated home-range area therefore depends on the chosen grid-cell area and cell shape. This makes the spatial resolution of the analysis an explicit and interpretable parameter rather than an implicit property of a smoothing procedure. The function can represent spatial variation in space-use intensity by displaying the number of locations recorded in each occupied cell. 
+
+In addition to estimating home-range size, `grid_hr()` can represent how space-use intensity changes with distance from the centre of the home range. This radial representation is based on the idea that a home range is not necessarily used uniformly: the intensity with which animals use space may
+increase, decrease, or vary in more complex ways from the centre toward the periphery.
+
+```{r}
+grid_hr(
+  gibbons,
+  cell_area = 2000,
+  fill_by = "locations",
+  show_legend = TRUE,
+  title = "Space-use intensity of a gibbon group (0.2-ha hexagons)"
+)
+```
+
+For the radial representation, occupied cells are assigned to concentric radial rings according to their distance from the centre of the home range. For each ring, space-use intensity is calculated as the number of locations recorded in the ring divided by the number of occupied cells in that ring. The resulting values describe a radial space-use profile, showing how intensively different parts of the home range are used relative to their distance from the centre.
+
+```{r}
+grid_hr(
+  gibbons,
+  cell_area = 2000,
+  fill_by = "radial",
+  show_legend = TRUE,
+  title = "Radial space-use intensity of a gibbon group (0.2-ha hexagons)"
+)
+```
+
+This radial representation provides a way to examine how space use is organized from the centre toward the periphery of the home range. Although spatial variation in space-use intensity can be visualized directly from the number of locations in each grid cell, the radial approach summarizes this variation according to distance from the centre, providing a profile of how use changes across the home range.
