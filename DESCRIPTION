@@ -8,7 +8,7 @@ Authors@R:
       role = c("aut", "cre"),
       comment = c(ORCID = "0000-0003-4536-5073")
     )
-Description: Description: Provides tools for estimating and exploring animal home ranges from georeferenced locations using regular spatial grids of square or hexagonal cells. The package includes grid-based home-range estimation across different cell sizes, analyses of the relationship between grid-cell size and home-range area and spatial connectivity, and rarefaction analyses to evaluate how home-range estimates change with increasing numbers of locations. It also introduces a novel radial approach for characterizing the internal organization of space use by quantifying how space-use intensity changes with increasing distance from the centre toward the periphery of the home range.
+Description:Provides tools for estimating and exploring animal home ranges from geographical locations using regular spatial grids of square or hexagonal cells. The package includes grid-based home-range estimation across different cell sizes, analyses of the relationship between grid-cell size and home-range area and spatial connectivity, and rarefaction analyses to evaluate how home-range estimates change with increasing numbers of locations. It also introduces a novel radial approach for characterizing the internal organization of space use by quantifying how space-use intensity changes with increasing distance from the centre toward the periphery of the home range.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -18,7 +18,7 @@ Imports:
     ggplot2,
     sf
 Depends: 
-    R (>= 3.5)
+    R (>= 4.1)
 LazyData: true
 Suggests: 
     knitr,

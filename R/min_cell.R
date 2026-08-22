@@ -67,28 +67,13 @@
 #' size at which the occupied grid becomes fully connected.
 #'
 #' @examples
-#' data(gibbons)
-#'
 #' min_cell(
-#'   gibbons,
-#'   min = 50,
-#'   max = 3000,
-#'   interval = 200,
-#'   cell_shape = "hex",
-#'   show_plot = TRUE
+#'   macaques,
+#'   min = 5000,
+#'   max = 40000,
+#'   interval = 10000,
+#'   cell_shape = "hex"
 #' )
-#'
-#' data(spider_monkeys)
-#'
-#' min_cell(
-#'   spider_monkeys,
-#'   min = 1000,
-#'   max = 20000,
-#'   interval = 1000,
-#'   cell_shape = "square",
-#'   show_plot = TRUE
-#' )
-#'
 #' @export
 
 min_cell <- function(

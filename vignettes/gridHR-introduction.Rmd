@@ -1,0 +1,235 @@
+---
+title: "Introduction to gridHR library"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to gridHR library}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(gridHR)
+```
+
+# Overview
+
+`gridHR` is an R package for estimating and exploring animal home ranges
+using regular spatial grids. Home ranges can be represented using either
+square or hexagonal cells, with space-use intensity quantified from the
+number of animal locations occurring within each occupied cell.
+
+The package is designed around two complementary aspects of home-range
+analysis. First, grid-based estimates provide a transparent
+representation of the extent and spatial structure of the area used by
+an animal. Second, `gridHR` provides a radial approach for examining the
+internal organization of space use, quantifying how space-use intensity
+changes as distance from the centre of the observed locations increases
+towards the periphery.
+
+# A recommended workflow
+
+The choice of grid-cell size can have a substantial influence on a
+grid-based home-range estimate. Small cells provide greater spatial
+resolution but can fragment the observed home range into isolated cells,
+whereas larger cells produce more spatially connected home ranges at the
+cost of spatial detail.
+
+We therefore recommend the following general workflow:
+
+1.  Explore the home range using an initial cell size.
+2.  Evaluate spatial connectivity and identify a suitable minimum cell
+    size.
+3.  Examine how estimated home-range size changes with cell size.
+4.  Evaluate whether the number of locations is sufficient to
+    characterize the home range.
+5.  Estimate the final home range using the selected resolution.
+6.  Explore its internal radial pattern of space use.
+
+The following example uses the `macaques` dataset included with the
+package.
+
+## General view of the home range
+
+We first obtain a general representation using 1-ha cells:
+
+```{r}
+grid_hr(
+  macaques,
+  cell_area = 10000,
+  fill_by = "locations",
+  title = "Macaques"
+)
+```
+
+This provides an initial view of the spatial extent of the home range
+and the distribution of locations among grid cells.
+
+At this stage, the objective is not necessarily to select the final cell
+size, but to explore the spatial structure of the data.
+
+Depending on the movement ecology of the species and the scale of the
+study, some occupied cells may appear as isolated areas separated from
+the main home range. These may represent genuine, repeatedly used
+peripheral or salient areas, or they may result from the spatial
+resolution being too fine relative to the movement scale of the animal.
+
+Importantly, a GPS location should not necessarily be interpreted as an
+isolated point in space. A location represents an observation of an
+animal whose use of the surrounding landscape extends beyond the exact
+recorded coordinate. Increasing the cell size can therefore provide a
+more spatially coherent representation of the area used by the animal.
+
+This motivates evaluating connectivity as a function of grid-cell size.
+
+## Identify a spatially coherent cell size
+
+```{r}
+min_cell(
+  macaques,
+  min = 5000,
+  max = 40000,
+  interval = 10000,
+  cell_shape = "hex",
+  show_plot = TRUE
+)
+```
+
+The function identifies the smallest tested cell area at which all
+occupied cells form a single connected component. This is, it identifies
+the smallest tested cell area at which the occupied cells form a
+spatially connected home range. To do this, it identifies groups of
+neighbouring occupied cells that touch each other and determines the
+largest contiguous group (or *connected component*). The proportion of
+occupied cells belonging to this largest group provides a measure of how
+spatially coherent the home range is at each grid resolution.
+
+This provides a practical way of identifying a grid resolution that
+retains as much spatial detail as possible while producing a spatially
+coherent representation of the observed home range. For the macaque
+example, the analysis indicates that approximately 2.5-ha hexagons
+provide a connected representation of the home range.
+
+This does not imply that 2.5 ha is a universally appropriate resolution.
+The appropriate resolution depends on the movement scale, sampling
+design and ecological characteristics of the study species.
+
+## Examine the effect of cell size on home-range size
+
+Connectivity provides one criterion for selecting a resolution. We can
+also examine how the estimated home-range size changes as cell size
+increases:
+
+```{r}
+hr_cell_size(
+  macaques,
+  min = 100,
+  max = 50000,
+  interval = 10000,
+  cell_shape = "hex",
+  title = "Grid-based home-range across cell sizes"
+)
+```
+
+For these macaque data, the relationship shows a noticeable change
+around 2.5 ha.
+
+Together with the connectivity analysis, this provides support for
+selecting a 2.5-ha hexagonal grid as a reasonable resolution for the
+subsequent analysis.
+
+The objective is not to identify a universally optimal cell size, but to
+make the choice explicit and empirically informed.
+
+## Check whether there are enough locations
+
+Even with an appropriate spatial resolution, a home-range estimate may
+be poorly characterized if too few locations have been collected.
+
+We can use `hr_rare()` to examine how estimated home-range size changes
+as locations are progressively added:
+
+```{r}
+hr_rare(
+  macaques,
+  cell_area = 25000,
+  cell_shape = "hex",
+  n_reps = 99,
+  step = 100
+)
+```
+
+In this example, the home-range estimate approaches an asymptote at
+approximately 5,000 locations.
+
+Because the dataset contains substantially more locations than this, the
+available sample appears sufficient to characterize the home range at
+the selected 2.5-ha resolution.
+
+This step is particularly important because cell size and sampling
+effort are related: a finer grid requires sufficient observations to
+characterize the spatial structure at that resolution.
+
+## Estimate the final grid-based home range
+
+Having selected a 2.5-ha hexagonal grid, we can now estimate the final
+home range and visualize space-use intensity:
+
+```{r}
+macaque_hr <- grid_hr(
+  macaques,
+  cell_area = 25000,
+  fill_by = "radial",
+  title = "Macaques",
+  low_colour = "grey90",
+  high_colour = "grey10"
+)
+
+macaque_hr$hr_plot
+```
+
+Here, the hexagons are shaded according to normalized space-use
+intensity, with lighter cells representing lower use and darker cells
+representing higher use.
+
+With fill_by = "radial", the spatial distribution of intensity is also
+considered in relation to the distance of each cell from the centre of
+the observed locations.
+
+In this example, the map suggests greater space-use intensity near the
+centre of the home range, with intensity generally declining towards the
+periphery.
+
+## Describe the radial space-use pattern
+
+The same pattern can be represented explicitly as a radial profile:
+
+```{r}
+radial_plot(
+  macaques,
+  cell_area = 25000
+)
+```
+
+The radial plot summarizes the relationship between distance from the
+centre of the home range and space-use intensity.
+
+Thus, the map and radial plot provide complementary views of the same
+spatial structure:
+
+- the map shows where space-use intensity occurs within the home range;
+- the radial plot summarizes how space-use intensity changes with
+  distance from the centre.
+
+This radial representation is one of the distinctive features of gridHR
+and provides a way of comparing the internal organization of home ranges
+independently of their absolute size or shape.
