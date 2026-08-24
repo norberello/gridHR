@@ -48,15 +48,13 @@
 #' }
 #'
 #' @examples
-#' data(gibbons)
-#'
 #' hr_cell_size(
-#'   gibbons,
-#'   min = 100,
-#'   max = 5000,
-#'   interval = 100,
+#'   spider_monkeys,
+#'   min = 10000,
+#'   max = 50000,
+#'   interval = 10000,
 #'   cell_shape = "hex",
-#'   title = "Grid-based home-range size across hexagonal cell areas"
+#'   title = "Grid-based home-range size according to cell area"
 #' )
 #'
 #' @export
