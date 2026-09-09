@@ -99,8 +99,7 @@ min_cell(
   min = 5000,
   max = 40000,
   interval = 10000,
-  cell_shape = "hex",
-  show_plot = TRUE
+  cell_shape = "hex"
 )
 ```
 
@@ -141,7 +140,7 @@ hr_cell_size(
 ```
 
 For these macaque data, the relationship shows a noticeable change
-around 2.5 ha.
+around 2.5 ha. For these macaque data, the relationship shows a noticeable change around 2.5 ha. Note also that larger cell sizes tend to overestimate total home-range area, particularly along the periphery, because occupied border cells include areas extending beyond the outermost locations. Thus, the choice of cell size can have an important effect on grid-based home-range estimates.
 
 Together with the connectivity analysis, this provides support for
 selecting a 2.5-ha hexagonal grid as a reasonable resolution for the
@@ -185,7 +184,7 @@ Having selected a 2.5-ha hexagonal grid, we can now estimate the final
 home range and visualize space-use intensity:
 
 ```{r}
-macaque_hr <- grid_hr(
+grid_hr(
   macaques,
   cell_area = 25000,
   fill_by = "radial",
@@ -193,8 +192,6 @@ macaque_hr <- grid_hr(
   low_colour = "grey90",
   high_colour = "grey10"
 )
-
-macaque_hr$hr_plot
 ```
 
 Here, the hexagons are shaded according to normalized space-use

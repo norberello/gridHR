@@ -321,7 +321,7 @@ hr_cell_size <- function(
   # 8. RETURN
   # ==========================================================
 
-  return(
+  invisible(
     list(
 
       results = results_df,

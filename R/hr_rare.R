@@ -95,6 +95,7 @@
 # ==========================================================
 # HOME-RANGE RAREFACTION FUNCTION
 # ==========================================================
+
 hr_rare <- function(
     points,
     cell_area = 5000,
@@ -387,13 +388,9 @@ hr_rare <- function(
   )
 
   sd_hr_m2 <- apply(
-
     replicate_hr,
-
     1,
-
     stats::sd
-
   )
 
 
@@ -476,7 +473,7 @@ hr_rare <- function(
   # 12. RETURN
   # ==========================================================
 
-  return(
+  invisible(
     list(
 
       rarefaction_df =

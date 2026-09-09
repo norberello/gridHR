@@ -73,6 +73,18 @@ the geometric centroid of the observed locations.}
 \item{radial_plot}{A \code{ggplot} object showing the radial
 space-use profile.}
 }
+
+A list containing:
+\describe{
+\item{ring_summary}{A data frame containing the radial rings,
+number of locations, number of occupied cells, space-use
+intensity, distance from the centre, and normalized distance
+and intensity.}
+\item{central_cell_center}{The centre of the grid cell containing
+the geometric centroid of the observed locations.}
+\item{radial_plot}{A \code{ggplot} object showing the radial
+space-use profile.}
+}
 }
 \description{
 Calculates and plots the relationship between space-use intensity
@@ -121,10 +133,65 @@ The radial profile is therefore based on the spatial organization
 of observed locations within the grid rather than on a kernel
 density estimate. No spatial smoothing is applied unless
 \code{smooth = TRUE} is specified.
+
+Space-use intensity is calculated separately for each radial ring
+as the total number of locations recorded in the ring divided by
+the number of occupied cells comprising that ring. This prevents
+rings containing more occupied cells from automatically having
+higher intensity simply because they cover a larger number of
+cells.
+
+The grid is constructed using the specified cell area and shape.
+Only cells containing at least one recorded location are considered
+part of the home range. Radial distance is measured from the centre
+of the central grid cell to the centres of the occupied grid cells.
+
+The radial profile is therefore based on the spatial organization
+of observed locations within the grid rather than on a kernel
+density estimate. No spatial smoothing is applied unless
+\code{smooth = TRUE} is specified.
 }
 \examples{
 data(gibbons)
 
+radial_plot(
+  gibbons,
+  cell_area = 5000,
+  cell_shape = "hex",
+  title = "Radial space-use profile of a gibbon group (0.5-ha hexagons)"
+)
+Radial space-use profile of a grid-based home range
+
+Calculates and plots the relationship between space-use intensity
+and distance from the centre to the periphery of a grid-based
+home range.
+
+The function divides the occupied home-range cells into radial
+rings according to their distance from the centre. The centre is
+defined as the centre of the grid cell containing the geometric
+centroid of all observed locations. For each radial ring,
+space-use intensity is calculated as the total number of recorded
+locations divided by the number of occupied cells in that ring.
+
+This approach provides a cell-based description of how space-use
+intensity is organized spatially from the centre toward the
+periphery, while accounting for differences in the number of
+occupied cells represented at different distances.
+
+Both distance and space-use intensity are normalized from 0 to 1.
+Normalized distance represents the position of each radial ring
+between the centre and the outermost occupied ring, whereas
+normalized space-use intensity represents relative intensity,
+with the most intensively used ring assigned a value of 1.
+
+The resulting profile describes how the intensity of space use
+changes with increasing distance from the centre of the home range.
+A decreasing profile indicates relatively greater use toward the
+centre, whereas an increasing profile indicates relatively greater
+use toward the periphery. The function can display either the
+observed radial profile or a LOESS-smoothed curve.
+
+data(gibbons)
 radial_plot(
   gibbons,
   cell_area = 5000,

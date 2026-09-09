@@ -90,6 +90,10 @@
 #' )
 #'
 #' @export
+# ==========================================================
+# HOME-RANGE GRID FUNCTION
+# ==========================================================
+
 grid_hr <- function(
     points,
     cell_area = 5000,
@@ -572,7 +576,7 @@ grid_hr <- function(
   # 16. RETURN
   # ==========================================================
 
-  return(
+  invisible(
     list(
       hr_size_m2 = hr_size_m2,
       hr_size_ha = hr_size_ha,

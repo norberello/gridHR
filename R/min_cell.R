@@ -516,7 +516,7 @@ min_cell <- function(
   # 11. RETURN
   # ==========================================================
 
-  return(
+  invisible(
     list(
 
       results = results_df,
